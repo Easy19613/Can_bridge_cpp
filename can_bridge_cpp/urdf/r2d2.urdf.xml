@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<robot name="four_axis_arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- 基础参数 -->
+  <material name="silver">
+    <color rgba="0.8 0.8 0.8 1"/>
+  </material>
+
+  <!-- 基座 -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.4 0.4 0.1"/>  <!-- 底座尺寸 -->
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="silver"/>
+    </visual>
+  </link>
+
+  <!-- 第一关节（绕Z轴旋转） -->
+  <joint name="joint1" type="revolute">
+    <parent link="base_link"/>
+    <child link="link1"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>  <!-- 关节位置偏移 -->
+    <axis xyz="0 0 1"/>  <!-- Z轴旋转 -->
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="1"/>
+  </joint>
+
+  <!-- 第一连杆 -->
+  <link name="link1">
+    <visual>
+      <geometry>
+        <box size="0.2 0.2 0.3"/>  <!-- 立柱尺寸 -->
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="silver"/>
+    </visual>
+  </link>
+
+  <!-- 第二关节（绕Y轴旋转） -->
+  <joint name="joint2" type="revolute">
+    <parent link="link1"/>
+    <child link="link2"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>  <!-- 关节位于立柱顶端 -->
+    <axis xyz="0 1 0"/>  <!-- Y轴旋转 -->
+    <limit lower="-1.57" upper="1.57" effort="100" velocity="1"/>
+  </joint>
+
+  <!-- 第二连杆 -->
+  <link name="link2">
+    <visual>
+      <geometry>
+        <box size="0.15 0.15 0.4"/>  <!-- 水平臂 -->
+      </geometry>
+      <origin rpy="0 1.57 0" xyz="0.2 0 0"/>
+      <material name="silver"/>
+    </visual>
+  </link>
+
+  <!-- 第三关节（绕Y轴旋转） -->
+  <joint name="joint3" type="revolute">
+    <parent link="link2"/>
+    <child link="link3"/>
+    <origin rpy="0 0 0" xyz="0.253 0 0"/>  <!-- 关节位于水平臂末端 -->
+    <axis xyz="0 1 0"/>  <!-- Y轴旋转 -->
+    <limit lower="-1.57" upper="1.57" effort="100" velocity="1"/>
+  </joint>
+
+  <!-- 第三连杆 -->
+  <link name="link3">
+    <visual>
+      <geometry>
+        <box size="0.15 0.15 0.4"/>  <!-- 垂直臂 -->
+      </geometry>
+      <origin rpy="0 1.57 0" xyz="0.2 0 0"/>
+      <material name="silver"/>
+    </visual>
+  </link>
+
+  <!-- 第四关节（绕X轴旋转） -->
+  <joint name="joint4" type="revolute">
+    <parent link="link3"/>
+    <child link="end_effector"/>
+    <origin rpy="0 0 0" xyz="0.282 0 0"/>  <!-- 关节位于垂直臂末端 -->
+    <axis xyz="1 0 0"/>  <!-- X轴旋转 -->
+    <limit lower="-3.14" upper="3.14" effort="100" velocity="1"/>
+  </joint>
+
+  <!-- 末端执行器 -->
+  <link name="end_effector">
+    <visual>
+      <geometry>
+        <box size="0.1 0.3 0.1"/>  <!-- 水平夹具 -->
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="silver"/>
+    </visual>
+  </link>
+
+</robot>
